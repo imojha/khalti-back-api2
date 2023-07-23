@@ -6,6 +6,7 @@ const axios = require("axios");
 app.use(express.json());
 
 app.use(cors());
+require('dotenv').config();
 
 app.get("/", (req, res) => {
     res.send("Hello there!")
@@ -13,12 +14,13 @@ app.get("/", (req, res) => {
 
 app.post("/api/khalti-payment", async (req, res) => {
     const payload = req.body;
+    console.log(process.env.KHALTI_SECRET_KEY);
     const khaltiResponse = await axios.post(
         "https://a.khalti.com/api/v2/epayment/initiate/",
         payload,
         {
             headers: {
-                Authorization: "Key 6553308be8f54147930bb0b64858c5e4",
+                Authorization: `Key ${process.env.KHALTI_SECRET_KEY}`,
             }
         }
     );
